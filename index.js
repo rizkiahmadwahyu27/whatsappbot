@@ -110,11 +110,19 @@ async function connectToWhatsApp() {
         if (qr) {
             console.log('\n=================================================');
             console.log('Pindai QR Code ini untuk login:');
-            // Menggunakan qrcode.toString untuk menampilkan QR di terminal
+            
+            // [PERBAIKAN UNTUK LINUX/SSH] Menampilkan URL gambar QR Code
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qr)}`;
+            console.log(`🔗 BUKA LINK INI DI BROWSER ANDA UNTUK MEMINDAI: ${qrUrl}`);
+
+            // Mencoba menampilkan di terminal (sebagai opsi sekunder yang mungkin gagal)
             qrcode.toString(qr, { type: 'terminal', small: true }, (err, data) => {
-                if (err) return console.log('Gagal menampilkan QR di terminal.');
+                if (err) return console.log('Gagal menampilkan QR di terminal, gunakan link di atas.');
+                console.log('--- TAMPILAN QR TERMINAL (MUNGKIN TIDAK TERBACA) ---');
                 console.log(data);
+                console.log('--------------------------------------------------');
             });
+
             console.log('=================================================\n');
         }
 
